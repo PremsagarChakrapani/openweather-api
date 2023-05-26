@@ -20,7 +20,6 @@ async function getWeatherByLocation(city) {
 
 function addWeatherToPage(data) {
   const temp = Ktoc(data.main.temp);
-
   const weather = document.createElement("div");
   weather.classList.add("weather");
 
@@ -36,6 +35,7 @@ function addWeatherToPage(data) {
   //   cleanup
   main.innerHTML = "";
   main.appendChild(weather);
+  main.classList.add("show");
 }
 
 function Ktoc(K) {
