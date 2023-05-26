@@ -1,54 +1,53 @@
 const apiKey = "5c157992181fe98e4ba6811c1c88b3ca";
 
-const main = document.getElementById('main');
-const form = document.getElementById('form');
-const search = document.getElementById('search');
-  
-const url = (city)=> `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=d102ce6f8a7f8c61a416505fdeb98697`; 
+const main = document.getElementById("main");
+const form = document.getElementById("form");
+const search = document.getElementById("search");
 
+const url = (city) =>
+  `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=d102ce6f8a7f8c61a416505fdeb98697`;
 
-async function getWeatherByLocation(city){
-     
-         const resp = await fetch(url(city), {
-             origin: "cros" });
-         const respData = await resp.json();
-     
-           addWeatherToPage(respData);
-          
-     }
+async function getWeatherByLocation(city) {
+  const resp = await fetch(url(city), {
+    origin: "cros",
+  });
+  const respData = await resp.json();
 
-      function addWeatherToPage(data){
-          const temp = Ktoc(data.main.temp);
+  console.log(respData);
 
-          const weather = document.createElement('div')
-          weather.classList.add('weather');
+  addWeatherToPage(respData);
+}
 
-          weather.innerHTML = `
-          <h2><img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" /> ${temp}°C <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" /></h2>
-          <small>${data.weather[0].main}</small>
-          
+function addWeatherToPage(data) {
+  const temp = Ktoc(data.main.temp);
+  const weather = document.createElement("div");
+  weather.classList.add("weather");
+
+  weather.innerHTML = `
+        <div class="info">
+        <img class="info__first__image" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
+        <h2 class="orange__text__gradient"> ${temp}°C</h2>
+        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
+        </div>
+          <small class="blue__text__gradient">${data.weather[0].main}</small>
           `;
 
+  //   cleanup
+  main.innerHTML = "";
+  main.appendChild(weather);
+  main.classList.add("show");
+}
 
-        //   cleanup 
-          main.innerHTML= "";
-           main.appendChild(weather);
-      };
+function Ktoc(K) {
+  return Math.floor(K - 273.15);
+}
 
+form.addEventListener("submit", (e) => {
+  e.preventDefault();
 
-     function Ktoc(K){
-         return Math.floor(K - 273.15);
-     }
+  const city = search.value;
 
-
-
-     form.addEventListener('submit',(e) =>{
-        e.preventDefault();
-
-        const city = search.value;
-
-        if(city){
-            getWeatherByLocation(city)
-        }
-
-     });
+  if (city) {
+    getWeatherByLocation(city);
+  }
+});
