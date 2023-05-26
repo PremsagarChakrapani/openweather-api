@@ -26,7 +26,7 @@ function addWeatherToPage(data) {
 
   weather.innerHTML = `
         <div class="info">
-        <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
+        <img class="info__first__image" src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
         <h2 class="orange__text__gradient"> ${temp}°C</h2>
         <img src="https://openweathermap.org/img/wn/${data.weather[0].icon}@2x.png" />
         </div>
